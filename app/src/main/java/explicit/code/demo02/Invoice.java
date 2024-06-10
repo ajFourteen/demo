@@ -4,14 +4,13 @@ import java.util.Collection;
 import java.util.List;
 
 public class Invoice {
-    private Rest rest;
+    private Rest rest = new Rest();
 
     private Person recipient;
     private Collection<InvoiceItem> items;
     private String number;
 
-    public Invoice(Rest rest, Person recipient, List<InvoiceItem> items, String number) {
-        this.rest = rest;
+    public Invoice(Person recipient, List<InvoiceItem> items, String number) {
         this.recipient = recipient;
         this.items = items;
         this.number = number;
