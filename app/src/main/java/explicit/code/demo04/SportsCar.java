@@ -6,12 +6,12 @@ final class SportsCar implements Car<Petrol> {
 
     @Override
     public void refuel(Petrol fuel) {
-        refueledPetrol = refueledPetrol.add(fuel);
+        this.refueledPetrol = this.refueledPetrol.add(fuel);
     }
 
     @Override
     public int fuelLevel() {
-        return refueledPetrol.amount();
+        return this.refueledPetrol.amount();
     }
 
 }
