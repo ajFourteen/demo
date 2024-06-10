@@ -1,10 +1,9 @@
-package explicit.code.demo02;
+package explicit.code.demo03;
 
 import java.util.Collection;
 import java.util.List;
 
-public class Invoice {
-    private Rest rest = new Rest();
+final class Invoice {
 
     private Person recipient;
     private Collection<InvoiceItem> items;
@@ -33,7 +32,7 @@ public class Invoice {
                 .append("No.: ").append(this.number()).append("\n")
                 .append("To: ").append(this.recipient()).append("\n")
                 .append("Items:").append("\n");
-        items.stream()
+        this.items.stream()
                 .map(InvoiceItem::toString)
                 .forEachOrdered(item -> printed.append(item).append("\n"));
         printed.append("Net Amount: ").append(this.netAmount()).append("\n")
@@ -43,17 +42,17 @@ public class Invoice {
     }
 
     public boolean isPayed() {
-        Response<Void> loginResponse = rest.post(
+        Response<Void> loginResponse = Rest.post(
                 "https://www.bank.de/auth",
                 "{username: '1234567890',password: 'f0ur733n'}");
         if (loginResponse.isFailed()) {
             throw new NetworkException(loginResponse.code());
         }
-        Response<Transfer[]> transactionsResponse = rest.get("https://www.bank.de/transactions");
-        if (transactionsResponse.isFailed()) {
-            throw new NetworkException(transactionsResponse.code());
+        Response<Transfer[]> response = Rest.get("https://www.bank.de/transactions");
+        if (response.isFailed()) {
+            throw new NetworkException(response.code());
         }
-        Transfer[] transfers = transactionsResponse.body();
+        Transfer[] transfers = response.body();
         for (Transfer transfer : transfers) {
             if (transfer.amount().value() == this.totalAmount() && transfer.subject().equals(this.number())) {
                 return true;
