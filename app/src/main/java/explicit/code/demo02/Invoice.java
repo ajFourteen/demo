@@ -49,11 +49,11 @@ public class Invoice {
         if (loginResponse.isFailed()) {
             throw new NetworkException(loginResponse.code());
         }
-        Response<Transfer[]> response = rest.get("https://www.bank.de/transactions");
-        if (response.isFailed()) {
-            throw new NetworkException(response.code());
+        Response<Transfer[]> transactionsResponse = rest.get("https://www.bank.de/transactions");
+        if (transactionsResponse.isFailed()) {
+            throw new NetworkException(transactionsResponse.code());
         }
-        Transfer[] transfers = response.body();
+        Transfer[] transfers = transactionsResponse.body();
         for (Transfer transfer : transfers) {
             if (transfer.amount().value() == this.totalAmount() && transfer.subject().equals(this.number())) {
                 return true;
