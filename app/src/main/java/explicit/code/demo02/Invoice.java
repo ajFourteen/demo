@@ -34,7 +34,7 @@ public class Invoice {
                 .append("No.: ").append(this.number()).append("\n")
                 .append("To: ").append(this.recipient()).append("\n")
                 .append("Items:").append("\n");
-        this.items.stream()
+        items.stream()
                 .map(InvoiceItem::toString)
                 .forEachOrdered(item -> printed.append(item).append("\n"));
         printed.append("Net Amount: ").append(this.netAmount()).append("\n")
